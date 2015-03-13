@@ -1,0 +1,52 @@
+  
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+    <meta charset="utf-8">
+    <title>backbone test</title>
+    <!-- <link rel="stylesheet" href="todos.css"/> -->
+  </head>
+
+  <body>
+
+    <div id="app">
+      <h1>Элементы</h1>
+      <table id="posts">
+        <tr>
+          <th>Ошибка</th>
+          <th>Название</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </table>
+      <div>
+        <input type="text" id="title" />
+        <input type="button" id="add" value="Добавить" />
+        <div id="error"></div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+
+    <script type="text/template" id="post_template">
+      <td><%= error %></td>
+      <td><%= title %></td>
+      <td><%= status %></td>
+      <td><a class="remove_button" href="#">Удалить</a></td>
+    </script>
+
+    <!-- Scripts -->
+
+    <script src="assets/js/json2.js"></script>
+    <script src="assets/js/jquery-1.11.2.js"></script>
+    <script src="assets/js/underscore.js"></script>
+    <script src="assets/js/backbone.js"></script>
+    <script src="assets/js/backbone.localStorage.js"></script>
+
+    <script src="post_model.js"></script>
+    <script src="app_view.js"></script>
+    <script src="main.js"></script>
+
+  </body>
+</html>
