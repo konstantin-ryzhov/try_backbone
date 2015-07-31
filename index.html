@@ -12,28 +12,30 @@
 
     <div id="app">
       <h1>Элементы</h1>
-      <table id="posts">
-        <tr>
-          <th>Ошибка</th>
-          <th>Название</th>
-          <th>Статус</th>
-          <th></th>
-        </tr>
-      </table>
-      <div>
-        <input type="text" id="title" />
-        <input type="button" id="add" value="Добавить" />
-        <div id="error"></div>
-      </div>
+      <div class="list"></div>
+      <h2>Добавить новый</h2>
+      <div class="new"></div>
     </div>
 
     <!-- Templates -->
+    <script type="text/template" id="add_template">
+      <input type="button" class="add_button" value="Добавить" />
+    </script>
 
-    <script type="text/template" id="post_template">
-      <td><%= error %></td>
-      <td><%= title %></td>
-      <td><%= status %></td>
-      <td><a class="remove_button" href="#">Удалить</a></td>
+    <script type="text/template" id="show_template">
+      <p><%= error %> - <%= title %> - <%= status %></p>
+      <p>
+        <input type="button" class="delete_button" value="Удалить" />
+        <input type="button" class="edit_button" value="Редактировать" />
+      </p>
+    </script>
+
+    <script type="text/template" id="edit_template">
+      <input type="text" class="title" value="<%= title %>"/>
+      <input type="text" class="status" value="<%= status %>"/>
+      <div class="error"><%= error %></div>
+      <input type="button" class="save_button" value="Сохранить" />
+      <input type="button" class="cancel_button" value="Отмена" />
     </script>
 
     <!-- Scripts -->
@@ -45,6 +47,8 @@
     <script src="assets/js/backbone.localStorage.js"></script>
 
     <script src="post_model.js"></script>
+    <script src="post_list.js"></script>
+    <script src="post_view.js"></script>
     <script src="app_view.js"></script>
     <script src="main.js"></script>
 

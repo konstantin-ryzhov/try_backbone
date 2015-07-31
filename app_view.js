@@ -2,47 +2,50 @@ var AppView = Backbone.View.extend({
     el: $("#app"),
 
     events: {
-      "click #add": "add",
+      "click .add_button": "add_new",
+      "click .save_button": "save_new",
+      "click .cancel_button": "cancel_new",
     },
 
     initialize: function() {
-        posts.bind('add',   this.addOne, this);
-        posts.bind('reset', this.addAll, this);
-        posts.bind('all',   this.render, this);
-        
+        this.listenTo(posts, 'add', this.addOne);
+
+        var tmp = _.template($("#add_template").html());
+        this.$(".new").html(tmp());
+
         posts.fetch();
     },
 
     addOne: function(post) {
       var post_view = new PostView({model: post});
-      
-      $("#posts").append(post_view.render().el);
-    },
-
-    addAll: function() {
-      posts.each(this.addOne);
+      this.$(".list").append(post_view.render().el);
     },
 
     render: function(){
 
     },
 
-    add: function(e) {
-      var input_field = $("#title");
-      var error_field = $("#error");
-      var new_title = input_field.val();
-      // if (!new_title) return;
+    //обработка кнопок
 
-      post = new Post({title: new_title, status: 666});
+    add_new: function() {
+      var tmp = _.template($("#edit_template").html());
+      this.$(".new").html(tmp({
+        error: "",
+        title: "",
+        status: ""
+      }));
+    },
 
-      if (!post.isValid()) {
-        error_field.html(post.validationError);
-        return;
-      }
+    save_new: function(){
+      posts.create({
+        title: this.$(".title").val(),
+        status: this.$(".status").val()
+      });
+      this.cancel_new();
+    },
 
-      post.save();
-      var p = posts.push(post);
-      input_field.val("");
-      error_field.html("");
+    cancel_new: function() {
+      var tmp = _.template($("#add_template").html());
+      this.$(".new").html(tmp());
     }
 });
