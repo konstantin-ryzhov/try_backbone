@@ -11,14 +11,12 @@ var PostView = Backbone.View.extend({
     initialize: function() {
       this.listenTo(this.model, 'sync', this.render);
       this.listenTo(this.model, 'invalid', this.edit);
-      this.listenTo(this.model, 'edit', this.edit);
       this.listenTo(this.model, 'destroy', this.remove);
     },
 
     render: function(){
       var tmp = _.template($("#show_template").html());
       var html = tmp({
-        error: this.model.validationError,
         title: this.model.get('title'),
         status: this.model.get('status')
       });
@@ -32,25 +30,25 @@ var PostView = Backbone.View.extend({
 
     delete: function(){
       this.model.destroy();
-      return this;
     },
 
     save: function(){
-      this.model.save({
+      this.model.set({
         title: this.$(".title").val(),
         status: this.$(".status").val(),
-      });
-      return this;
+      })
+
+      this.model.save();
     },
 
     cancel: function(){
-      is_new = this.model.isNew();
+      this.model.fetch();
+      this.model.isValid();
 
-      if(is_new)
+      if(this.model.isNew())
         this.model.destroy();
 
       this.render();
-      return this;
     },
 
     edit: function(){

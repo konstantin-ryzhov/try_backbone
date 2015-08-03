@@ -23,7 +23,7 @@
     </script>
 
     <script type="text/template" id="show_template">
-      <p><%= error %> - <%= title %> - <%= status %></p>
+      <h1><%= title %><i><%= status %></i></h1>
       <p>
         <input type="button" class="delete_button" value="Удалить" />
         <input type="button" class="edit_button" value="Редактировать" />
@@ -31,11 +31,21 @@
     </script>
 
     <script type="text/template" id="edit_template">
+      
       <input type="text" class="title" value="<%= title %>"/>
+      <% if(error) { %>
+        <div class="error"><%= error["title"] %></div>
+      <% } %>
+      
       <input type="text" class="status" value="<%= status %>"/>
-      <div class="error"><%= error %></div>
-      <input type="button" class="save_button" value="Сохранить" />
-      <input type="button" class="cancel_button" value="Отмена" />
+      <% if(error) { %>
+        <div class="error"><%= error["status"] %></div>
+      <% } %>
+
+      <p>
+        <input type="button" class="save_button" value="Сохранить" />
+        <input type="button" class="cancel_button" value="Отмена" />
+      </p>
     </script>
 
     <!-- Scripts -->

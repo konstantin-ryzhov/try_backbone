@@ -2,21 +2,18 @@ var AppView = Backbone.View.extend({
     el: $("#app"),
 
     events: {
-      "click .add_button": "add_new",
-      "click .save_button": "save_new",
-      "click .cancel_button": "cancel_new",
+      "click .add_button": "edit_new"
     },
 
     initialize: function() {
-        this.listenTo(posts, 'add', this.addOne);
+        this.listenTo(posts, 'add', this.add_one);
 
-        var tmp = _.template($("#add_template").html());
-        this.$(".new").html(tmp());
+        this.show_add_button();
 
         posts.fetch();
     },
 
-    addOne: function(post) {
+    add_one: function(post) {
       var post_view = new PostView({model: post});
       this.$(".list").append(post_view.render().el);
     },
@@ -25,26 +22,19 @@ var AppView = Backbone.View.extend({
 
     },
 
-    //обработка кнопок
+    edit_new: function() {
+      var post = new Post();
+      var post_view = new PostView({model: post});
+      this.$(".new").html(post_view.edit().el);
 
-    add_new: function() {
-      var tmp = _.template($("#edit_template").html());
-      this.$(".new").html(tmp({
-        error: "",
-        title: "",
-        status: ""
-      }));
-    },
-
-    save_new: function(){
-      posts.create({
-        title: this.$(".title").val(),
-        status: this.$(".status").val()
+      this.listenToOnce(post, 'sync destroy', function(){
+        this.show_add_button();
+        if(!post.isNew())
+          posts.push(post);
       });
-      this.cancel_new();
     },
 
-    cancel_new: function() {
+    show_add_button: function() {
       var tmp = _.template($("#add_template").html());
       this.$(".new").html(tmp());
     }
